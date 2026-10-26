@@ -21,18 +21,14 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                script {
-                    def scannerHome = tool 'SonarScanner'
-
-                    withSonarQubeEnv('SonarQube') {
-                        sh """
-                            "\${scannerHome}/bin/sonar-scanner" \
-                            -Dsonar.projectKey=dvp-week12-sonarqube-docker \
-                            -Dsonar.sources=app.py \
-                            -Dsonar.tests=. \
-                            -Dsonar.test.inclusions=test_*.py
-                        """
-                    }
+                withSonarQubeEnv('SonarQube') {
+                    sh '''
+                        /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner \
+                        -Dsonar.projectKey=dvp-week12-sonarqube-docker \
+                        -Dsonar.sources=app.py \
+                        -Dsonar.tests=. \
+                        -Dsonar.test.inclusions=test_*.py
+                    '''
                 }
             }
         }
@@ -44,7 +40,7 @@ pipeline {
                         def qg = waitForQualityGate()
 
                         if (qg.status != 'OK') {
-                            error "Quality Gate failed: \${qg.status}"
+                            error "Quality Gate failed: ${qg.status}"
                         }
                     }
                 }
