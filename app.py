@@ -3,6 +3,11 @@ from flask import Flask
 
 app = Flask(__name__)
 
+def greet(name):
+    if not name:
+        return "Hello, World!"
+    return f"Hello, {name}!"
+
 @app.route("/")
 def home():
     return "<h1>Hello, DVP Week 12!</h1><p>My Jenkins CI/CD pipeline is working.</p>"
