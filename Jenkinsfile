@@ -21,14 +21,18 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
-                    sh '''
-                        sonar-scanner \
-                        -Dsonar.projectKey=dvp-week12-sonarqube-docker \
-                        -Dsonar.sources=app.py \
-                        -Dsonar.tests=. \
-                        -Dsonar.test.inclusions=test_*.py
-                    '''
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        sh """
+                            "\${scannerHome}/bin/sonar-scanner" \
+                            -Dsonar.projectKey=dvp-week12-sonarqube-docker \
+                            -Dsonar.sources=app.py \
+                            -Dsonar.tests=. \
+                            -Dsonar.test.inclusions=test_*.py
+                        """
+                    }
                 }
             }
         }
