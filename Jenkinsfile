@@ -13,12 +13,13 @@ pipeline {
             }
         }
 
-        stage('Build and Test') {
-            steps {
-               sh 'python3 -m pip install --user -r requirements.txt'
-                sh 'python3 -m unittest -v'
-            }
-        }
+        
+stage('Build and Test') {
+    steps {
+        sh 'python3 -m pip install --user -r requirements.txt --break-system-packages'
+        sh 'python3 -m unittest -v'
+    }
+}
 
         stage('SonarQube Analysis') {
             steps {
