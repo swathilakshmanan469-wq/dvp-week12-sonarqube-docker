@@ -15,6 +15,7 @@ pipeline {
 
         stage('Build and Test') {
             steps {
+                sh 'pip3 install --user -r requirements.txt'
                 sh 'python3 -m unittest -v'
             }
         }
@@ -38,7 +39,6 @@ pipeline {
                 timeout(time: 5, unit: 'MINUTES') {
                     script {
                         def qg = waitForQualityGate()
-
                         if (qg.status != 'OK') {
                             error "Quality Gate failed: ${qg.status}"
                         }
