@@ -15,7 +15,7 @@ pipeline {
 
         stage('Build and Test') {
             steps {
-                sh 'pip3 install --user -r requirements.txt'
+               sh 'python3 -m pip install --user -r requirements.txt'
                 sh 'python3 -m unittest -v'
             }
         }
