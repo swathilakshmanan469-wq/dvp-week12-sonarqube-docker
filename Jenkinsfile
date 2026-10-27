@@ -1,4 +1,4 @@
-
+```groovy
 pipeline {
     agent any
 
@@ -13,21 +13,20 @@ pipeline {
             }
         }
 
-        
-stage('Build and Test') {
-    steps {
-        sh 'python3 -m pip install --user -r requirements.txt --break-system-packages'
-        sh 'python3 -m unittest -v'
-    }
-}
+        stage('Build and Test') {
+            steps {
+                sh 'python3 -m pip install --user -r requirements.txt --break-system-packages'
+                sh 'python3 -m unittest -v'
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                         /var/jenkins_home/tools/hudson.plugins.sonar.SonarRunnerInstallation/SonarScanner/bin/sonar-scanner \
-  -Dsonar.projectKey=dvp-week12-sonarqube-docker \
-  -Dsonar.python.version=3.12
+                        -Dsonar.projectKey=dvp-week12-sonarqube-docker \
+                        -Dsonar.python.version=3.12 \
                         -Dsonar.tests=. \
                         -Dsonar.test.inclusions=test_*.py
                     '''
@@ -67,3 +66,4 @@ stage('Build and Test') {
         }
     }
 }
+```
